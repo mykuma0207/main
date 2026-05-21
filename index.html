@@ -3,21 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ゲームポータルサイト</title>
+    <title>GAME PORTAL</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; }
-        ul { list-style: none; padding: 0; }
-        li { margin: 15px 0; }
-        a { text-decoration: none; font-size: 20px; color: #0066cc; }
-        a:hover { text-decoration: underline; }
+        /* 背景の動くグラデーション */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: #fff;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* メインコンテナ */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        /* リンクボタンのスタイル */
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-item {
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: block;
+            padding: 15px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ホバー時の演出（浮き上がり＆発光） */
+        .btn:hover {
+            background: #fff;
+            color: #e73c7e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.4);
+        }
     </style>
 </head>
 <body>
-    <h1>ゲームポータルへようこそ</h1>
-    <ul>
-        <li><a href="./card/index.html">カードゲーム</a></li>
-        <li><a href="./dice/index.html">サイコロゲーム</a></li>
-        <li><a href="./pencil/index.html">ペンシルゲーム</a></li>
-    </ul>
+
+    <div class="container">
+        <h1>GAME PORTAL</h1>
+        <ul class="menu-list">
+            <li class="menu-item">
+                <a href="./card/index.html" class="btn">🃏 CARD GAME</a>
+            </li>
+            <li class="menu-item">
+                <a href="./dice/index.html" class="btn">🎲 DICE GAME</a>
+            </li>
+            <li class="menu-item">
+                <a href="./pencil/index.html" class="btn">✏️ PENCIL GAME</a>
+            </li>
+        </ul>
+    </div>
+
 </body>
 </html>
