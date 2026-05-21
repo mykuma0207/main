@@ -1,0 +1,31 @@
+name: Unzip Game
+
+on:
+  push:
+    paths:
+      - 'card/my-rank-battle-main.zip' # ZIPが置いてある場所
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Unzip file
+        run: |
+          # card/card フォルダの中にZIPの中身をすべて解凍します
+          unzip -o card/my-rank-battle-main.zip -d card/
+
+      - name: Delete zip
+        run: |
+          # 不要になったZIPファイルを削除します
+          rm card/my-rank-battle-main.zip
+
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@://github.com"
+          git add .
+          git commit -m "Auto unzip game files"
+          git push
