@@ -2,107 +2,114 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>まゐゲームシリーズ</title>
     <style>
-        /* 全体のリセットと背景画像の設定 */
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        /* 全体の設定：画面にぴったり収める */
+        html, body {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            background-image: url('./top.png'); /* トップ画面の画像 */
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* 背景画像の設定 */
+        body {
+            background-image: url('./top.png');
             background-size: cover;
-            background-position: center;
+            background-position: center top; /* キャラクターの顔を中心に持ってくる */
             background-repeat: no-repeat;
-            background-attachment: fixed;
             display: flex;
-            justify-content: flex-end; /* 右側にコンテンツを寄せる */
+            flex-direction: column;
+            justify-content: space-between; /* 上下に要素を分散 */
             align-items: center;
-            overflow-x: hidden;
         }
 
-        /* メインコンテナ（右側に配置し、キャラを隠さないようにする） */
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.25); /* 透明度を上げて背景に馴染ませる */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 35px 25px;
-            border-radius: 25px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-            width: 85%;
-            max-width: 320px;
-            margin-right: 5vw; /* 右端から少し離す */
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* ゲームタイトル（上部に小さく配置してキャラを邪魔しない） */
         h1 {
-            font-size: 1.8rem;
-            margin-top: 0;
-            margin-bottom: 25px;
-            color: #5c4033; /* イラストに合わせた温かみのあるブラウン */
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            font-size: 1.6rem;
+            margin: 20px 0 0 0;
+            color: #5c4033;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 0px #fff;
+            font-weight: bold;
             letter-spacing: 1px;
         }
 
-        /* リンクボタンのスタイル */
+        /* ボタンを横並びにするコンテナ（画面最下部に固定） */
+        .menu-container {
+            width: 100%;
+            max-width: 450px;
+            padding-bottom: 30px; /* ナビゲーションバーとの被り防止 */
+            box-sizing: border-box;
+        }
+
         .menu-list {
+            display: flex;
+            justify-content: space-around; /* 3つのボタンを均等配置 */
             list-style: none;
-            padding: 0;
+            padding: 0 15px;
             margin: 0;
         }
 
         .menu-item {
-            margin: 18px 0;
+            flex: 1;
+            margin: 0 8px; /* ボタン同士の間隔 */
+            max-width: 110px; /* ボタンの最大横幅 */
         }
 
+        /* ソシャゲ風の正方形風ボタン */
         .btn {
-            display: block;
-            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1 / 1; /* 正方形を維持 */
+            width: 100%;
             color: #5c4033;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 0.85rem; /* スマホ用に文字を小さく調整 */
             font-weight: bold;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 2px solid #fff;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-radius: 18px; /* ほどよい角丸 */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 235, 220, 0.95));
+            border: 3px solid #fff;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), inset 0 -4px 0 rgba(0,0,0,0.05);
             cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            box-sizing: border-box;
+            padding: 5px;
         }
 
-        /* ホバー時の演出（テーマカラーに合わせた発光） */
-        .btn:hover {
-            background: #fff;
-            transform: translateY(-3px);
+        /* ボタン内の絵文字（アイコン）を大きく表示 */
+        .btn-icon {
+            font-size: 2rem;
+            margin-bottom: 4px;
         }
 
-        .btn-card:hover {
-            color: #e73c7e;
-            box-shadow: 0 6px 20px rgba(231, 60, 126, 0.5);
-            border-color: #e73c7e;
+        /* ボタン内のテキスト折り返し設定 */
+        .btn-text {
+            text-align: center;
+            line-height: 1.2;
+            word-break: break-all;
         }
 
-        .btn-pencil:hover {
-            color: #23a6d5;
-            box-shadow: 0 6px 20px rgba(35, 166, 213, 0.5);
-            border-color: #23a6d5;
+        /* タップ・ホバー時の演出（ソシャゲのボタンっぽく凹む） */
+        .btn:active {
+            transform: scale(0.95) translateY(2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .btn-dice:hover {
-            color: #23d5ab;
-            box-shadow: 0 6px 20px rgba(35, 213, 171, 0.5);
-            border-color: #23d5ab;
-        }
+        /* 各ボタンのアクティブ・ホバー時のフチの色変化 */
+        .btn-card:active { border-color: #e73c7e; color: #e73c7e; }
+        .btn-pencil:active { border-color: #23a6d5; color: #23a6d5; }
+        .btn-dice:active { border-color: #23d5ab; color: #23d5ab; }
 
-        /* 全画面ロード画面（拡張子を.pngに変更） */
+        /* 全画面ロード画面（前回の仕様を維持） */
         #loading-overlay {
             position: fixed;
             top: 0;
@@ -110,49 +117,47 @@
             width: 100vw;
             height: 100vh;
             background-color: #f7ebd3;
-            background-image: url('./loading.png'); /* .pngに変更しました */
+            background-image: url('./loading.png');
             background-position: center;
             background-repeat: no-repeat;
             background-size: contain;
             z-index: 9999;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
         #loading-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
-
-        /* スマホ縦画面用のレスポンシブ対応 */
-        @media (max-width: 600px) {
-            body {
-                justify-content: center;
-                align-items: flex-end;
-            }
-            .container {
-                margin-right: 0;
-                margin-bottom: 5vh;
-                background: rgba(255, 255, 255, 0.4);
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- ポータルメニュー -->
-    <div class="container">
-        <h1>まゐゲームシリーズ</h1>
+    <!-- ゲームタイトル（上部） -->
+    <h1>まゐゲームシリーズ</h1>
+
+    <!-- ソシャゲ風下部メニュー -->
+    <div class="menu-container">
         <ul class="menu-list">
             <li class="menu-item">
-                <a data-href="./card/index.html" class="btn btn-card">🃏 まゐのカードバトル！</a>
+                <a data-href="./card/index.html" class="btn btn-card">
+                    <span class="btn-icon">🃏</span>
+                    <span class="btn-text">カード<br>バトル</span>
+                </a>
             </li>
             <li class="menu-item">
-                <a data-href="./pencil/index.html" class="btn btn-pencil">✏️ まゐの鉛筆バトル！</a>
+                <a data-href="./pencil/index.html" class="btn btn-pencil">
+                    <span class="btn-icon">✏️</span>
+                    <span class="btn-text">鉛筆<br>バトル</span>
+                </a>
             </li>
             <li class="menu-item">
-                <a data-href="./dice/index.html" class="btn btn-dice">🎲 まゐのサイコロバトル！</a>
+                <a data-href="./dice/index.html" class="btn btn-dice">
+                    <span class="btn-icon">🎲</span>
+                    <span class="btn-text">サイコロ<br>バトル</span>
+                </a>
             </li>
         </ul>
     </div>
