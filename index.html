@@ -3,51 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAME PORTAL</title>
+    <title>まゐゲームシリーズ</title>
     <style>
-        /* 背景の動くグラデーション */
+        /* 全体のリセットと背景画像の設定 */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: #fff;
-            overflow: hidden;
+            background-image: url('./top.png'); /* トップ画面の画像 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: flex-end; /* 右側にコンテンツを寄せる */
+            align-items: center;
+            overflow-x: hidden;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* メインコンテナ */
+        /* メインコンテナ（右側に配置し、キャラを隠さないようにする） */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 1;
+            background: rgba(255, 255, 255, 0.25); /* 透明度を上げて背景に馴染ませる */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 35px 25px;
+            border-radius: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+            width: 85%;
+            max-width: 320px;
+            margin-right: 5vw; /* 右端から少し離す */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #5c4033; /* イラストに合わせた温かみのあるブラウン */
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            letter-spacing: 1px;
         }
 
+        /* リンクボタンのスタイル */
         .menu-list {
             list-style: none;
             padding: 0;
@@ -55,72 +60,88 @@
         }
 
         .menu-item {
-            margin: 20px 0;
+            margin: 18px 0;
         }
 
         .btn {
             display: block;
-            padding: 15px;
-            color: #fff;
+            padding: 14px;
+            color: #5c4033;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.6);
             border: 2px solid #fff;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
             cursor: pointer;
         }
 
+        /* ホバー時の演出（テーマカラーに合わせた発光） */
         .btn:hover {
             background: #fff;
-            transform: translateY(-4px);
+            transform: translateY(-3px);
         }
 
         .btn-card:hover {
             color: #e73c7e;
-            box-shadow: 0 8px 25px rgba(231, 60, 126, 0.6);
+            box-shadow: 0 6px 20px rgba(231, 60, 126, 0.5);
+            border-color: #e73c7e;
         }
 
         .btn-pencil:hover {
             color: #23a6d5;
-            box-shadow: 0 8px 25px rgba(35, 166, 213, 0.6);
+            box-shadow: 0 6px 20px rgba(35, 166, 213, 0.5);
+            border-color: #23a6d5;
         }
 
         .btn-dice:hover {
             color: #23d5ab;
-            box-shadow: 0 8px 25px rgba(35, 213, 171, 0.6);
+            box-shadow: 0 6px 20px rgba(35, 213, 171, 0.5);
+            border-color: #23d5ab;
         }
 
-        /* 【追加】全画面ロード画面のスタイル */
+        /* 全画面ロード画面（拡張子を.pngに変更） */
         #loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #f7ebd3; /* 画像になじむ背景色 */
-            background-image: url('./loading.png'); /* 保存した画像名に合わせて変更してください */
+            background-color: #f7ebd3;
+            background-image: url('./loading.png'); /* .pngに変更しました */
             background-position: center;
             background-repeat: no-repeat;
-            background-size: contain; /* 画面に収まるように全体を表示 */
+            background-size: contain;
             z-index: 9999;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
         }
 
-        /* ロード画面を表示する時のクラス */
         #loading-overlay.active {
             opacity: 1;
             pointer-events: auto;
+        }
+
+        /* スマホ縦画面用のレスポンシブ対応 */
+        @media (max-width: 600px) {
+            body {
+                justify-content: center;
+                align-items: flex-end;
+            }
+            .container {
+                margin-right: 0;
+                margin-bottom: 5vh;
+                background: rgba(255, 255, 255, 0.4);
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ポータル画面 -->
+    <!-- ポータルメニュー -->
     <div class="container">
         <h1>まゐゲームシリーズ</h1>
         <ul class="menu-list">
@@ -136,24 +157,20 @@
         </ul>
     </div>
 
-    <!-- 【追加】ロード画面用レイヤー -->
+    <!-- ロード画面用レイヤー -->
     <div id="loading-overlay"></div>
 
     <script>
-        // 全てのボタンを取得
         const buttons = document.querySelectorAll('.btn');
         const overlay = document.getElementById('loading-overlay');
 
         buttons.forEach(button => {
             button.addEventListener('click', function(e) {
-                e.preventDefault(); // すぐのページ遷移をストップ
+                e.preventDefault();
+                const targetUrl = this.getAttribute('data-href');
                 
-                const targetUrl = this.getAttribute('data-href'); // 行き先を取得
-                
-                // ロード画面を表示
                 overlay.classList.add('active');
                 
-                // 3000ミリ秒（3秒）後にページを切り替え
                 setTimeout(() => {
                     window.location.href = targetUrl;
                 }, 3000);
