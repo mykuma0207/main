@@ -40,7 +40,7 @@
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             letter-spacing: 2px;
@@ -71,12 +71,26 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        /* ホバー時の演出（浮き上がり＆発光） */
+        /* 共通のホバー効果（上に浮かび上がる） */
         .btn:hover {
             background: #fff;
-            color: #e73c7e;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255,255,255,0.4);
+            transform: translateY(-4px);
+        }
+
+        /* 【追加】各ゲーム個別のホバー色と発光エフェクト */
+        .btn-card:hover {
+            color: #e73c7e; /* カード風の赤ピンク */
+            box-shadow: 0 8px 25px rgba(231, 60, 126, 0.6);
+        }
+
+        .btn-pencil:hover {
+            color: #23a6d5; /* 鉛筆・文具風の爽やかな青 */
+            box-shadow: 0 8px 25px rgba(35, 166, 213, 0.6);
+        }
+
+        .btn-dice:hover {
+            color: #23d5ab; /* サイコロ風のエメラルドグリーン */
+            box-shadow: 0 8px 25px rgba(35, 213, 171, 0.6);
         }
     </style>
 </head>
@@ -86,13 +100,13 @@
         <h1>まゐゲームシリーズ</h1>
         <ul class="menu-list">
             <li class="menu-item">
-                <a href="./card/index.html" class="btn">🃏 まゐのカードバトル！</a>
+                <a href="./card/index.html" class="btn btn-card">🃏 まゐのカードバトル！</a>
             </li>
             <li class="menu-item">
-                <a href="./pencil/index.html" class="btn">✏️ まゐの鉛筆バトル！</a>
+                <a href="./pencil/index.html" class="btn btn-pencil">✏️ まゐの鉛筆バトル！</a>
             </li>
             <li class="menu-item">
-                <a href="./dice/index.html" class="btn">🎲 まゐのサイコロバトル！</a>
+                <a href="./dice/index.html" class="btn btn-dice">🎲 まゐのサイコロバトル！</a>
             </li>
         </ul>
     </div>
