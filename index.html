@@ -215,6 +215,48 @@
                     .catch((err) => console.log('Service Worker 登録失敗...', err));
             });
         }
+        let deferredPrompt;
+        
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        // 【改良】ブラウザの気まぐれを待たず、最初からボタンを一瞬だけ強制表示してみる
+        // PWA対応ブラウザ（Android Chromeなど）であれば、2秒後にボタンを強制出現させます
+        setTimeout(() => {
+            // すでにアプリとして起動している（standalone）場合を除き、ボタンを表示
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                installBtn.style.display = 'inline-block';
+            }
+        }, 2000);
+
+        // ブラウザ側からインストールの準備完了通知が届いた時の処理
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); // ブラウザ独自の勝手なポップアップを止める
+            deferredPrompt = e;  // 実行権限（プロンプト）を保存
+            installBtn.style.display = 'inline-block'; // ボタンを確実に表示
+        });
+
+        // ボタンが押された時の処理
+        installBtn.addEventListener('click', async () => {
+            // ブラウザの準備が整っている場合
+            if (deferredPrompt) {
+                deferredPrompt.prompt(); // 公式のインストール画面を出す
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+                deferredPrompt = null;
+            } else {
+                // 【追加】まだブラウザの準備ができていないタイミングで押された場合
+                // ユーザーに手動でのインストール手順を優しくガイドする
+                alert('画面右上のメニュー（縦の「…」）をタップし、「アプリをインストール」または「ホーム画面に追加」を選んでください！');
+            }
+        });
+
+        // インストール完了後はボタンを消す
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            deferredPrompt = null;
+        });
     </script>
 </body>
 </html>
