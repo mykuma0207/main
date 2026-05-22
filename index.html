@@ -187,5 +187,16 @@
         });
     </script>
 
+    <!-- 既存のスクリプトの下あたりに追記 -->
+    <script>
+        // Service Worker の登録処理
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((reg) => console.log('Service Worker 登録成功！', reg.scope))
+                    .catch((err) => console.log('Service Worker 登録失敗...', err));
+            });
+        }
+    </script>
 </body>
 </html>
