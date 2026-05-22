@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- ポータルサイトの index.html の head 内に追記 -->
-    <link rel="manifest" href="./manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#5c4033">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>まゐゲームシリーズ</title>
-    <!-- タイトルの下あたりに追加（最初は自動で隠れます） -->
-    <button id="pwa-install-btn" style="display: none;">📱 アプリ版をインストール！</button>
+    <!-- 共通PWAマニフェストの読み込み -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#5c4033">
+    
     <style>
         /* 全体の設定：画面にぴったり収める */
         html, body {
@@ -25,15 +24,15 @@
         body {
             background-image: url('./top.png');
             background-size: cover;
-            background-position: center top; /* キャラクターの顔を中心に持ってくる */
+            background-position: center top;
             background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* 上下に要素を分散 */
+            justify-content: space-between;
             align-items: center;
         }
 
-        /* ゲームタイトル（上部に小さく配置してキャラを邪魔しない） */
+        /* ゲームタイトル */
         h1 {
             font-size: 1.6rem;
             margin: 20px 0 0 0;
@@ -47,17 +46,40 @@
             letter-spacing: 1px;
         }
 
+        /* PWAインストールボタン（未インストール時のみ上にふわっと出る） */
+        #pwa-install-btn {
+            display: none; /* 条件を満たすまで最初は隠す */
+            margin-top: 15px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border: 2px solid #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            cursor: pointer;
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* ボタンを横並びにするコンテナ（画面最下部に固定） */
         .menu-container {
             width: 100%;
             max-width: 450px;
-            padding-bottom: 30px; /* ナビゲーションバーとの被り防止 */
+            padding-bottom: 30px;
             box-sizing: border-box;
         }
 
         .menu-list {
             display: flex;
-            justify-content: space-around; /* 3つのボタンを均等配置 */
+            justify-content: space-around;
             list-style: none;
             padding: 0 15px;
             margin: 0;
@@ -65,8 +87,8 @@
 
         .menu-item {
             flex: 1;
-            margin: 0 8px; /* ボタン同士の間隔 */
-            max-width: 110px; /* ボタンの最大横幅 */
+            margin: 0 8px;
+            max-width: 110px;
         }
 
         /* ソシャゲ風の正方形風ボタン */
@@ -75,13 +97,13 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            aspect-ratio: 1 / 1; /* 正方形を維持 */
+            aspect-ratio: 1 / 1;
             width: 100%;
             color: #5c4033;
             text-decoration: none;
-            font-size: 0.85rem; /* スマホ用に文字を小さく調整 */
+            font-size: 0.85rem;
             font-weight: bold;
-            border-radius: 18px; /* ほどよい角丸 */
+            border-radius: 18px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 235, 220, 0.95));
             border: 3px solid #fff;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), inset 0 -4px 0 rgba(0,0,0,0.05);
@@ -91,37 +113,32 @@
             padding: 5px;
         }
 
-        /* ボタン内の絵文字（アイコン）を大きく表示 */
         .btn-icon {
             font-size: 2rem;
             margin-bottom: 4px;
         }
 
-        /* ボタン内のテキスト折り返し設定 */
         .btn-text {
             text-align: center;
             line-height: 1.2;
             word-break: break-all;
         }
 
-        /* タップ・ホバー時の演出（ソシャゲのボタンっぽく凹む） */
+        /* タップ時の沈み込み演出 */
         .btn:active {
             transform: scale(0.95) translateY(2px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* 各ボタンのアクティブ・ホバー時のフチの色変化 */
         .btn-card:active { border-color: #e73c7e; color: #e73c7e; }
         .btn-pencil:active { border-color: #23a6d5; color: #23a6d5; }
         .btn-dice:active { border-color: #23d5ab; color: #23d5ab; }
 
-        /* 全画面ロード画面（前回の仕様を維持） */
+        /* 全画面ロード画面（3秒挟む用） */
         #loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background-color: #f7ebd3;
             background-image: url('./loading.png');
             background-position: center;
@@ -137,28 +154,15 @@
             opacity: 1;
             pointer-events: auto;
         }
-        
-        #pwa-install-btn {
-            display: inline-block;
-            margin: 10px 0;
-            padding: 8px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #fff;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            border: 2px solid #fff;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            cursor: pointer;
-            animation: pulse 2s infinite;
-        }
-
     </style>
 </head>
 <body>
 
-    <!-- ゲームタイトル（上部） -->
-    <h1>まゐゲームシリーズ</h1>
+    <!-- 上部タイトルとインストールボタン -->
+    <div style="text-align: center;">
+        <h1>まゐゲームシリーズ</h1>
+        <button id="pwa-install-btn">📱 アプリ版をインストール！</button>
+    </div>
 
     <!-- ソシャゲ風下部メニュー -->
     <div class="menu-container">
@@ -188,6 +192,7 @@
     <div id="loading-overlay"></div>
 
     <script>
+        // --- 1. 3秒のページ遷移ロード処理 ---
         const buttons = document.querySelectorAll('.btn');
         const overlay = document.getElementById('loading-overlay');
 
@@ -195,68 +200,56 @@
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetUrl = this.getAttribute('data-href');
-                
                 overlay.classList.add('active');
-                
                 setTimeout(() => {
                     window.location.href = targetUrl;
                 }, 3000);
             });
         });
-    </script>
 
-    <!-- 既存のスクリプトの下あたりに追記 -->
-    <script>
-        // Service Worker の登録処理
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then((reg) => console.log('Service Worker 登録成功！', reg.scope))
-                    .catch((err) => console.log('Service Worker 登録失敗...', err));
-            });
-        }
-        let deferredPrompt;
-        
+        // --- 2. PWA自動インストールボタン処理 ---
+        let deferredPrompt = null;
         const installBtn = document.getElementById('pwa-install-btn');
 
-        // 【改良】ブラウザの気まぐれを待たず、最初からボタンを一瞬だけ強制表示してみる
-        // PWA対応ブラウザ（Android Chromeなど）であれば、2秒後にボタンを強制出現させます
-        setTimeout(() => {
-            // すでにアプリとして起動している（standalone）場合を除き、ボタンを表示
-            if (!window.matchMedia('(display-mode: standalone)').matches) {
-                installBtn.style.display = 'inline-block';
+        // アプリ版（standalone）で起動中なら最初から絶対にボタンを出さない
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            installBtn.style.display = 'none';
+        } else {
+            // 全て小文字の「service-worker.js」を正確に登録
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./service-worker.js')
+                        .then((reg) => console.log('SW登録成功', reg.scope))
+                        .catch((err) => console.log('SW登録失敗', err));
+                });
             }
-        }, 2000);
 
-        // ブラウザ側からインストールの準備完了通知が届いた時の処理
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); // ブラウザ独自の勝手なポップアップを止める
-            deferredPrompt = e;  // 実行権限（プロンプト）を保存
-            installBtn.style.display = 'inline-block'; // ボタンを確実に表示
-        });
+            // ブラウザがインストール可能と判断した時にボタンを出現させる
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.style.display = 'inline-block'; // ここで初めて綺麗に出現
+            });
+        }
 
-        // ボタンが押された時の処理
+        // ボタンクリックで公式プロンプト起動
         installBtn.addEventListener('click', async () => {
-            // ブラウザの準備が整っている場合
             if (deferredPrompt) {
-                deferredPrompt.prompt(); // 公式のインストール画面を出す
+                deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
                     installBtn.style.display = 'none';
+                    deferredPrompt = null;
                 }
-                deferredPrompt = null;
-            } else {
-                // 【追加】まだブラウザの準備ができていないタイミングで押された場合
-                // ユーザーに手動でのインストール手順を優しくガイドする
-                alert('画面右上のメニュー（縦の「…」）をタップし、「アプリをインストール」または「ホーム画面に追加」を選んでください！');
             }
         });
 
-        // インストール完了後はボタンを消す
+        // インストール完了後にボタンを即座に消滅させる
         window.addEventListener('appinstalled', () => {
             installBtn.style.display = 'none';
             deferredPrompt = null;
         });
     </script>
+
 </body>
 </html>
