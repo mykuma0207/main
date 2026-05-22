@@ -1,1 +1,18 @@
-
+{
+  "name": "まゐゲームシリーズ",
+  "short_name": "まゐゲーム",
+  "description": "まゐの可愛いミニゲームシリーズ集",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7ebd3",
+  "theme-color": "#5c4033",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./top.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
