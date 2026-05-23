@@ -38,19 +38,19 @@ body {
     left: 12px !important;
     z-index: 999999 !important;
     display: flex !important;
-    align-items: center;
-    padding: 5px 10px;          /* 余白を狭くしてコンパクトに */
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 0.75rem;         /* 文字を小さく設定 */
-    font-weight: bold;
-    background: rgba(255, 255, 255, 0.15); /* 背景を薄い半透明にして目立たせない */
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    border: 1px solid rgba(255, 255, 255, 0.3); /* 線も細く白を透過 */
-    border-radius: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.1s ease, background 0.1s ease;
+    align-items: center !important;
+    padding: 5px 12px !important;           /* 少し横幅を広げて押しやすく */
+    color: #ffffff !important;               /* 文字を強制的に白に */
+    text-decoration: none !important;        /* 下線を強制的に消す */
+    font-size: 0.75rem !important;
+    font-weight: bold !important;
+    background: rgba(255, 255, 255, 0.15) !important; /* 半透明の背景 */
+    backdrop-filter: blur(3px) !important;
+    -webkit-backdrop-filter: blur(3px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important; /* 白い細い枠線 */
+    border-radius: 20px !important;         /* 丸みをつける */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+    transition: transform 0.1s ease, background 0.1s ease !important;
 }
 
 /* ボタン内のアイコン設定 */
@@ -61,8 +61,8 @@ body {
 
 /* 💡 トップボタンのアイコンサイズ調整 */
 .back-to-top .back-icon {
-    font-size: 0.9rem;
-    margin-right: 2px;
+    font-size: 0.9rem !important;
+    margin-right: 4px !important;
 }
 
 /* タップした時に少し凹むアニメーション */
@@ -70,10 +70,11 @@ body {
     transform: scale(0.95);
     background: #fff;
 }
+
 /* 💡 トップボタンのタップ時挙動 */
 .back-to-top:active {
-    transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0.95) !important;
+    background: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* タイトルとルールボタンをコンパクトに */
