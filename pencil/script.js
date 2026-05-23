@@ -1,5 +1,35 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js');
+/* --- 【追加】ポータル（ホーム）に戻るボタンのスタイル --- */
+.back-to-portal {
+    position: fixed !important; /* 他の設定を無視して画面全体に固定 */
+    top: 15px !important;
+    left: 15px !important;
+    z-index: 999999 !important; /* タイトル画面より確実に手前に表示 */
+    display: flex !important;
+    align-items: center;
+    padding: 8px 14px;
+    color: #5c4033; /* ポータルと同じブラウン */
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 2px solid #fff;
+    border-radius: 30px; /* 丸みのある可愛いデザイン */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s ease;
+}
+
+/* ボタン内のアイコン設定 */
+.back-icon {
+    font-size: 1.1rem;
+    margin-right: 4px;
+}
+
+/* タップした時に少し凹むアニメーション */
+.back-to-portal:active {
+    transform: scale(0.95);
+    background: #fff;
 }
 
 // --- データ定義 ---
