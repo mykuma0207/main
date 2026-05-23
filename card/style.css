@@ -31,16 +31,49 @@ body {
     transition: transform 0.1s ease;
 }
 
+/* 💡 【新規】対戦画面専用：小さく控えめなトップに戻るボタン */
+.back-to-top {
+    position: fixed !important;
+    top: 12px !important;
+    left: 12px !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center;
+    padding: 5px 10px;          /* 余白を狭くしてコンパクトに */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.75rem;         /* 文字を小さく設定 */
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.15); /* 背景を薄い半透明にして目立たせない */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 線も細く白を透過 */
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease, background 0.1s ease;
+}
+
 /* ボタン内のアイコン設定 */
 .back-icon {
     font-size: 1.1rem;
     margin-right: 4px;
 }
 
+/* 💡 トップボタンのアイコンサイズ調整 */
+.back-to-top .back-icon {
+    font-size: 0.9rem;
+    margin-right: 2px;
+}
+
 /* タップした時に少し凹むアニメーション */
 .back-to-portal:active {
     transform: scale(0.95);
     background: #fff;
+}
+/* 💡 トップボタンのタップ時挙動 */
+.back-to-top:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* タイトルとルールボタンをコンパクトに */
