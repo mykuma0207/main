@@ -98,7 +98,7 @@
         <div class="action-area">
             <div id="dice-container" class="dice-outer"><div id="dice-box" class="dice-inner"></div></div>
             <button id="dice-btn" class="dice-roll-btn" onclick="handleTurn()">サイコロを振る</button>
-            <button onclick="location.reload()" class="game-quit-btn">リセット</button>
+            <button onclick="if(confirm('本当にタイトルに戻りますか？')) location.reload()" class="game-quit-btn">終了</button>
         </div>
 
         <!-- リザルト画面（オーバーレイ） -->
