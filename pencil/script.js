@@ -1,3 +1,8 @@
+// --- PWA設定 ---
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').catch(e => console.log(e));
+}
+
 // --- データ定義 ---
 const characters = {
     power: { name: "ルナリア", img: "images/lunaria.png", faces: ["40ダメ", "30ダメ", "ミス", "30ダメ", "20ダメ", "ミス"] },
@@ -26,17 +31,14 @@ const seSpecialHit = new Audio('images/special_hit.mp3');
 const allSounds = [seRoll, seHit, seHeal, seFinish, seLose, seSpecialReady, seSpecialCutin, seSpecialHit];
 
 function unlockAudio() {
-    // 既存の音声アンロック
     allSounds.forEach(s => {
-        s.play().then(() => { s.pause();
-            s.currentTime = 0; }).catch(e => console.log(e));
+        s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(e => console.log(e));
     });
     
-    // ★追加：画像プリロード処理
     const imageUrls = [
         ...Object.values(characters).map(c => c.img),
         ...enemies.map(e => e.img),
-        'images/title_bg.png' // タイトル背景など
+        'images/title_bg.png'
     ];
     
     imageUrls.forEach(url => {
@@ -48,7 +50,7 @@ function unlockAudio() {
 // --- グローバル変数 ---
 let playerHP = 100, enemyHP = 100, playerType = "", isRolling = false, isPlayerTurn = true;
 let isSpecialPencil = false, isNextSpecial = false, nextReduction = 0, enemyReduction = 0, turnCount = 0, currentEnemyIndex = 0;
-let battleLogs = []; // ★ログ履歴用
+let battleLogs = [];
 
 // --- 画面遷移 ---
 function showSelect() {
@@ -140,13 +142,16 @@ function processTurn(whosTurn) {
                 const data = (whosTurn === "player") ? characters[playerType] : enemies[currentEnemyIndex];
                 result = data.faces[Math.floor(Math.random() * 6)];
             }
-            pencil.innerText = (result === "必殺技") ? "🔥奥義🔥" : result;
+            
             applyResult(result, whosTurn);
+            
             if (whosTurn === "player") {
-                isSpecialPencil = false; pencil.classList.remove('pencil-special');
+                isSpecialPencil = false; 
+                pencil.classList.remove('pencil-special');
                 if (enemyHP > 0 && turnCount + 1 >= 3 && Math.random() < 0.2) isNextSpecial = true;
             }
-            // ★待ち時間を特殊技に関わらず一律1600msに修正
+            pencil.innerText = (result === "必殺技") ? "🔥奥義🔥" : result;
+            
             let delay = 1600; 
             setTimeout(() => {
                 if (playerHP > 0 && enemyHP > 0) {
@@ -188,7 +193,6 @@ function applyResult(result, whosTurn) {
             showEffect("player", `+${val}`, "#0f0", "heal"); seHeal.play();
         } else addLog(`${playerName}はミスした！`);
     } else {
-        // --- 敵のターン ---
         if (result === "30ダメ＋軽減") {
             let val = Math.max(0, 30 - nextReduction); playerHP -= val; enemyReduction = 10; nextReduction = 0;
             addLog(`${currentEnemy.name}の攻撃！${val}ダメ＋防御(10)！`);
@@ -202,7 +206,7 @@ function applyResult(result, whosTurn) {
             addLog(`${currentEnemy.name}の攻撃！${val}ダメ＋防御(20)！`);
             showEffect("player", `-${val}`, "red"); seHit.play();
         } else if (result === "自傷") {
-            enemyHP -= 20; // ★自傷のログ内容を変更
+            enemyHP -= 20; 
             addLog(`${currentEnemy.name}の魔力が暴走！自傷20ダメ！`);
             showEffect("enemy", "-20", "purple"); seHit.play();
         } else if (result.includes("ダメ")) {
@@ -228,7 +232,6 @@ function updateUI() {
     pBar.style.width = playerHP + "%";
     eBar.style.width = (enemyHP / currentEnemy.maxHp * 100) + "%";
 
-    // 瀕死（25%以下）で色を赤く変える
     pBar.style.background = playerHP <= 25 ? "#f44336" : "#4caf50";
     eBar.style.background = (enemyHP / currentEnemy.maxHp) <= 0.25 ? "#f44336" : "#4caf50";
 }
