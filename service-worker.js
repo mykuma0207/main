@@ -1,5 +1,5 @@
 // 最もシンプルなService Worker（インストール条件を満たすための最小構成）
-const CACHE_NAME = 'mai-game-v1';
+const CACHE_NAME = 'mai-game-v2';
 
 // インストール時にキャッシュを作成（今回は空でもPWA条件を満たせます）
 self.addEventListener('install', (event) => {
